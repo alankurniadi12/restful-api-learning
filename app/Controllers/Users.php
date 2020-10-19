@@ -14,7 +14,8 @@ class Users extends ResourceController {
         $this->validation = \Config\Services::validation();
     }
 
-    public function index() {
+    public function index() 
+    {
         return $this->respond($this->model->findAll());
     }
 
@@ -36,6 +37,28 @@ class Users extends ResourceController {
         if($this->model->save($user)) 
         {
             return $this->respondCreated($user, 'user created');
+        }
+    }
+
+    public function update($id = null) 
+    {
+        $data = $this->request->getRawInput();
+        $data['id'] = $id;
+        $validate = $this->validation->fun($data, 'update_user');
+        $errors = $this->validation->getErros();
+
+        if($errors) {
+            return $this->fail($errors);
+        }
+
+        $user = new \App\Entities\Users();
+        $user->fill($data);
+        $user->updated_by = 0;
+        $user->updated_date = date("Y-m-d H:i:s");
+
+        if($this->model->save($user)) 
+        {
+            return $this->respondUpdated($user, 'user updated');
         }
     }
 }

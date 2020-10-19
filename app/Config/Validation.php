@@ -54,4 +54,25 @@ class Validation
 			'rules' => 'required|is_natural',
 		]
 	];
+
+	public $update_user = [
+		'username' => [
+			'rules' => 'required|min_length[3]|is_unique[users.username, id,{id]',	
+		],
+		'password' => [
+			'rules' => 'required',
+		],
+		'firstname' => [
+			'rules' => 'required',
+		],
+		'lastname' => [
+			'rules' => 'required',
+		],
+		'address' => [
+			'rules' => 'required',
+		],
+		'age' => [
+			'rules' => 'required|is_natural',
+		]
+	];
 }
